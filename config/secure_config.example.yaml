@@ -1,0 +1,313 @@
+# NyxTrade Secure Configuration
+# This configuration emphasizes security and private key protection
+
+# Google ADK and A2A Configuration
+google_a2a:
+  project_id: "your-google-cloud-project"
+  credentials_path: "path/to/service-account.json"
+  region: "us-central1"
+  agent_network_id: "nyxtrade-secure-network"
+  consensus_threshold: 0.8  # Higher threshold for security
+
+# Database Configuration (encrypted connections)
+database:
+  url: "postgresql://user:password@localhost:5432/nyxtrade"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+  ssl_mode: "require"  # Require SSL connections
+
+# Redis Configuration (encrypted)
+redis:
+  url: "rediss://localhost:6379"  # SSL Redis
+  db: 0
+  max_connections: 10
+  ssl_cert_reqs: "required"
+
+# Security Settings
+security:
+  # Wallet Security
+  wallet_security:
+    encryption_enabled: true
+    require_master_password: true
+    hardware_wallet_preferred: true
+    private_key_exposure_prevention: true
+    
+    # Key storage options
+    key_storage:
+      use_system_keyring: true
+      encrypt_local_storage: true
+      never_log_private_keys: true
+      auto_clear_memory: true
+    
+    # Supported wallet types
+    supported_wallets:
+      - "local_encrypted"
+      - "hardware_ledger"
+      - "hardware_trezor"
+      - "mnemonic_hd"
+  
+  # AI Security
+  ai_security:
+    validate_llm_inputs: true
+    sanitize_llm_outputs: true
+    never_send_private_keys: true
+    require_verification: true
+    min_confidence_threshold: 0.7
+    
+    # Input validation
+    input_validation:
+      check_private_key_patterns: true
+      check_mnemonic_phrases: true
+      check_sensitive_data: true
+      block_suspicious_requests: true
+  
+  # Trading Security
+  trading_security:
+    max_trade_amount_usd: 10000
+    require_ai_verification: true
+    require_multi_agent_consensus: true
+    enable_emergency_stop: true
+    
+    # Position limits
+    position_limits:
+      max_position_size: 0.05  # 5% of portfolio
+      max_daily_trades: 20
+      max_concurrent_orders: 5
+      
+    # Risk controls
+    risk_controls:
+      stop_loss_required: true
+      max_slippage: 0.01  # 1%
+      gas_price_limit: 100  # Gwei
+      
+# Exchange API Configuration (API keys only, no private keys)
+exchanges:
+  binance:
+    api_key: "${BINANCE_API_KEY}"  # From environment
+    secret_key: "${BINANCE_SECRET_KEY}"
+    sandbox: true
+    rate_limit: true
+    
+  coinbase:
+    api_key: "${COINBASE_API_KEY}"
+    secret_key: "${COINBASE_SECRET_KEY}"
+    passphrase: "${COINBASE_PASSPHRASE}"
+    sandbox: true
+    rate_limit: true
+
+# Blockchain RPC Endpoints (public endpoints only)
+blockchain:
+  ethereum:
+    rpc_url: "${ETHEREUM_RPC_URL}"
+    chain_id: 1
+    gas_price_strategy: "medium"
+    
+  bsc:
+    rpc_url: "${BSC_RPC_URL}"
+    chain_id: 56
+    gas_price_strategy: "fast"
+    
+  polygon:
+    rpc_url: "${POLYGON_RPC_URL}"
+    chain_id: 137
+    gas_price_strategy: "fast"
+
+# LangChain Configuration
+langchain:
+  model: "gemini-2.0-flash"
+  temperature: 0.1  # Low temperature for consistent decisions
+  max_tokens: 4000
+  timeout: 30
+  
+  # Security settings
+  security:
+    validate_inputs: true
+    sanitize_outputs: true
+    callback_handler: "SecureCallbackHandler"
+    memory_encryption: true
+  
+  # Tools configuration
+  tools:
+    enabled_tools:
+      - "get_wallet_info"
+      - "analyze_market_data"
+      - "calculate_position_size"
+      - "validate_transaction"
+    
+    disabled_tools:
+      - "get_private_key"  # Never enable
+      - "export_mnemonic"  # Never enable
+      - "sign_arbitrary_data"  # Restricted
+
+# MCP (Model Context Protocol) Configuration
+mcp:
+  server:
+    host: "localhost"
+    port: 8765
+    ssl_enabled: true
+    
+  resources:
+    - "trading_strategies"
+    - "risk_parameters"
+    - "market_data"
+    
+  tools:
+    - "get_wallet_balance"
+    - "list_wallets"
+    - "get_market_data"
+    - "validate_transaction"
+  
+  security:
+    validate_requests: true
+    rate_limiting: true
+    authentication_required: true
+
+# Agent Configuration with Security
+agents:
+  market_analyzer:
+    enabled: true
+    model: "gemini-2.0-flash"
+    update_interval: 60
+    security_validation: true
+    
+  risk_manager:
+    enabled: true
+    model: "gemini-2.0-flash"
+    check_interval: 30
+    conservative_mode: true
+    
+  arbitrage_hunter:
+    enabled: true
+    model: "gemini-2.0-flash"
+    scan_interval: 10
+    max_exposure: 1000
+    
+  portfolio_manager:
+    enabled: true
+    model: "gemini-2.0-flash"
+    rebalance_interval: 3600
+    risk_first_approach: true
+
+# Verification System
+verification_system:
+  enabled: true
+  consensus_threshold: 0.8  # Higher for security
+  
+  verification_agents:
+    technical_verifier:
+      enabled: true
+      weight: 0.35
+      
+    risk_verifier:
+      enabled: true
+      weight: 0.35
+      
+    market_verifier:
+      enabled: true
+      weight: 0.30
+  
+  reflection_agent:
+    enabled: true
+    learning_rate: 0.05  # Conservative learning
+
+# Monitoring and Alerting
+monitoring:
+  security_monitoring:
+    enabled: true
+    alert_on_suspicious_activity: true
+    log_all_wallet_operations: true
+    monitor_ai_inputs: true
+    
+  alerts:
+    security_alerts:
+      private_key_exposure_attempt: "CRITICAL"
+      suspicious_transaction: "HIGH"
+      unusual_trading_pattern: "MEDIUM"
+      
+    email:
+      enabled: true
+      smtp_server: "smtp.gmail.com"
+      smtp_port: 587
+      username: "${SMTP_USERNAME}"
+      password: "${SMTP_PASSWORD}"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  file: "logs/nyxtrade_secure.log"
+  max_size: "100MB"
+  backup_count: 10
+  
+  # Security logging
+  security_logging:
+    log_wallet_operations: true
+    log_ai_interactions: false  # Don't log AI content for privacy
+    log_trade_decisions: true
+    redact_sensitive_data: true
+
+# Development Settings
+development:
+  debug: false
+  test_mode: false
+  paper_trading: true  # Always start with paper trading
+  
+  # Security in development
+  security_in_dev:
+    enforce_security_checks: true
+    use_test_wallets_only: true
+    limit_trade_amounts: true
+    require_confirmation: true
+
+# Backup and Recovery
+backup:
+  enabled: true
+  
+  # What to backup (never backup private keys)
+  backup_items:
+    - "wallet_metadata"  # Public info only
+    - "trading_history"
+    - "configuration"
+    - "agent_learning_data"
+  
+  # What never to backup
+  never_backup:
+    - "private_keys"
+    - "mnemonics"
+    - "passwords"
+    - "api_secrets"
+  
+  schedule: "daily"
+  retention_days: 30
+  encryption: true
+
+# Compliance and Auditing
+compliance:
+  audit_logging: true
+  trade_reporting: true
+  risk_reporting: true
+  
+  # Regulatory compliance
+  regulatory:
+    kyc_required: false  # Depends on jurisdiction
+    aml_monitoring: true
+    transaction_limits: true
+    
+# Emergency Procedures
+emergency:
+  emergency_stop:
+    enabled: true
+    triggers:
+      - "security_breach_detected"
+      - "unusual_trading_activity"
+      - "system_compromise_suspected"
+    
+  emergency_contacts:
+    - "admin@nyxn.ai"
+    
+  recovery_procedures:
+    - "stop_all_trading"
+    - "secure_wallets"
+    - "notify_administrators"
+    - "preserve_audit_logs"

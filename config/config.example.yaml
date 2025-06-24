@@ -1,0 +1,207 @@
+# NyxTrade Configuration File
+# Copy this file to config.yaml and fill in your actual values
+
+# Google A2A ADK Configuration
+google_a2a:
+  project_id: "your-google-cloud-project"
+  credentials_path: "path/to/service-account.json"
+  region: "us-central1"
+  agent_network_id: "nyxtrade-network"
+
+# Database Configuration
+database:
+  url: "postgresql://user:password@localhost:5432/nyxtrade"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+
+# Redis Configuration
+redis:
+  url: "redis://localhost:6379"
+  db: 0
+  max_connections: 10
+
+# Kafka Configuration
+kafka:
+  bootstrap_servers: ["localhost:9092"]
+  group_id: "nyxtrade-agents"
+  auto_offset_reset: "latest"
+
+# Exchange API Keys
+exchanges:
+  binance:
+    api_key: "your_binance_api_key"
+    secret_key: "your_binance_secret_key"
+    sandbox: true  # Set to false for live trading
+    
+  coinbase:
+    api_key: "your_coinbase_api_key"
+    secret_key: "your_coinbase_secret_key"
+    passphrase: "your_coinbase_passphrase"
+    sandbox: true
+    
+  kraken:
+    api_key: "your_kraken_api_key"
+    secret_key: "your_kraken_secret_key"
+
+# Blockchain RPC Endpoints
+blockchain:
+  ethereum:
+    rpc_url: "https://mainnet.infura.io/v3/your-project-id"
+    chain_id: 1
+    
+  bsc:
+    rpc_url: "https://bsc-dataseed.binance.org/"
+    chain_id: 56
+    
+  polygon:
+    rpc_url: "https://polygon-rpc.com/"
+    chain_id: 137
+
+# Wallet Configuration
+wallets:
+  trading_wallet:
+    private_key: "your_private_key"  # Use environment variable in production
+    address: "0x..."
+    
+  backup_wallet:
+    private_key: "your_backup_private_key"
+    address: "0x..."
+
+# Trading Configuration
+trading:
+  # Risk Management
+  max_position_size: 0.1  # 10% of portfolio per position
+  max_daily_loss: 0.05    # 5% daily loss limit
+  stop_loss_percentage: 0.02  # 2% stop loss
+  take_profit_percentage: 0.05  # 5% take profit
+  
+  # Slippage Protection
+  max_slippage: 0.005  # 0.5% maximum slippage
+  
+  # Gas Settings
+  gas_price_multiplier: 1.2
+  max_gas_price: 100  # Gwei
+  
+  # Trading Pairs
+  supported_pairs:
+    - "BTC/USDT"
+    - "ETH/USDT"
+    - "BNB/USDT"
+    - "ADA/USDT"
+    - "SOL/USDT"
+    - "MATIC/USDT"
+
+# Agent Configuration
+agents:
+  market_analyzer:
+    enabled: true
+    update_interval: 60  # seconds
+    indicators:
+      - "RSI"
+      - "MACD"
+      - "Bollinger_Bands"
+      - "EMA"
+      - "SMA"
+      
+  risk_manager:
+    enabled: true
+    check_interval: 30  # seconds
+    max_correlation: 0.7
+    var_confidence: 0.95
+    
+  arbitrage_hunter:
+    enabled: true
+    scan_interval: 10  # seconds
+    min_profit_threshold: 0.005  # 0.5% minimum profit
+    max_execution_time: 30  # seconds
+    
+  portfolio_manager:
+    enabled: true
+    rebalance_interval: 3600  # 1 hour
+    target_allocations:
+      BTC: 0.4
+      ETH: 0.3
+      Others: 0.3
+      
+  news_sentiment:
+    enabled: true
+    update_interval: 300  # 5 minutes
+    sources:
+      - "twitter"
+      - "reddit"
+      - "news_api"
+
+# Strategy Configuration
+strategies:
+  dca:
+    enabled: true
+    interval: "daily"
+    amount: 100  # USDT
+    assets: ["BTC", "ETH"]
+    
+  grid_trading:
+    enabled: true
+    grid_levels: 10
+    price_range: 0.1  # 10% range
+    
+  arbitrage:
+    enabled: true
+    min_profit: 0.005  # 0.5%
+    max_exposure: 1000  # USDT
+    
+  mev:
+    enabled: false  # Disabled by default due to high risk
+    gas_limit: 500000
+    priority_fee: 2  # Gwei
+
+# External APIs
+external_apis:
+  news_api:
+    key: "your_news_api_key"
+    
+  twitter_api:
+    bearer_token: "your_twitter_bearer_token"
+    
+  coingecko:
+    api_key: "your_coingecko_api_key"
+    
+  messari:
+    api_key: "your_messari_api_key"
+
+# Monitoring & Alerts
+monitoring:
+  prometheus:
+    enabled: true
+    port: 8000
+    
+  grafana:
+    enabled: true
+    port: 3000
+    
+  alerts:
+    email:
+      enabled: true
+      smtp_server: "smtp.gmail.com"
+      smtp_port: 587
+      username: "your_email@gmail.com"
+      password: "your_app_password"
+      
+    telegram:
+      enabled: false
+      bot_token: "your_telegram_bot_token"
+      chat_id: "your_chat_id"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  file: "logs/nyxtrade.log"
+  max_size: "100MB"
+  backup_count: 5
+
+# Development Settings
+development:
+  debug: false
+  test_mode: false
+  paper_trading: true  # Set to false for live trading

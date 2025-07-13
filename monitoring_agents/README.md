@@ -1,6 +1,6 @@
 # NyxTrade Monitoring Agents System
 
-A comprehensive monitoring system with AI-powered analysis using Google Gemini CLI for cryptocurrency market surveillance and automated decision support.
+A comprehensive monitoring system with AI-powered analysis using Google Gemini AI for cryptocurrency market surveillance and automated decision support.
 
 ## 🎯 Overview
 

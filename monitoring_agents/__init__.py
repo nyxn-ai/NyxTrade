@@ -1,7 +1,7 @@
 """
 NyxTrade Monitoring Agents System
 
-A comprehensive monitoring system with AI-powered analysis using Gemini CLI.
+A comprehensive monitoring system with AI-powered analysis using Google Gemini AI.
 Includes specialized agents for market regression, trend tracking, fund flow,
 indicator collection, and hotspot tracking.
 """

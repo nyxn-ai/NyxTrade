@@ -1,0 +1,77 @@
+market_regression:
+  enabled: true
+  update_interval: 300  # 5 minutes
+  symbols:
+    - BTC
+    - ETH
+  lookback_periods:
+    - 20
+    - 50
+    - 200
+  alert_thresholds:
+    z_score: 2.0
+    deviation_percent: 10.0
+  gemini_enabled: true
+
+trend_tracking:
+  enabled: true
+  update_interval: 180  # 3 minutes
+  symbols:
+    - BTC
+    - ETH
+    - BNB
+    - ADA
+    - SOL
+  timeframes:
+    - 1h
+    - 4h
+    - 1d
+  alert_thresholds:
+    trend_strength: 0.7
+    reversal_probability: 0.6
+  gemini_enabled: true
+
+fund_flow:
+  enabled: true
+  update_interval: 600  # 10 minutes
+  exchanges:
+    - binance
+    - coinbase
+    - kraken
+  whale_threshold: 1000000  # $1M
+  alert_thresholds:
+    large_flow: 10000000  # $10M
+    flow_change_percent: 20.0
+  gemini_enabled: true
+
+indicator_collector:
+  enabled: true
+  update_interval: 240  # 4 minutes
+  indicators:
+    - fear_greed_index
+    - mvrv_ratio
+    - nvt_ratio
+    - social_sentiment
+    - funding_rates
+  alert_thresholds:
+    extreme_fear: 20
+    extreme_greed: 80
+  gemini_enabled: true
+
+hotspot_tracking:
+  enabled: true
+  update_interval: 120  # 2 minutes
+  sources:
+    - twitter
+    - reddit
+    - news
+  keywords:
+    - bitcoin
+    - ethereum
+    - defi
+    - nft
+    - regulation
+  alert_thresholds:
+    viral_threshold: 1000
+    sentiment_change: 0.3
+  gemini_enabled: true

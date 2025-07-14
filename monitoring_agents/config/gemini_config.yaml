@@ -1,0 +1,9 @@
+api_key: ""  # Set your Gemini API key here or use GEMINI_API_KEY environment variable
+model: "gemini-pro"
+temperature: 0.7
+top_p: 0.8
+top_k: 40
+max_tokens: 2048
+timeout: 30
+retry_attempts: 3
+retry_delay: 1

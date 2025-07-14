@@ -221,3 +221,8 @@ class TradingLogger:
 def get_trading_logger(name: str) -> TradingLogger:
     """Get a trading logger instance"""
     return TradingLogger(name)
+
+
+def get_logger(name: str) -> logging.Logger:
+    """Get a standard logger instance"""
+    return logging.getLogger(name)
